@@ -11,14 +11,17 @@
 ## Imports ##
 import bibtexparser
 from bibtexparser.bparser import BibTexParser
+from bibtexparser.bwriter import BibTexWriter
 from bibtexparser.customization import *
 
+
 ## Properties ##
-references_file = "references.bib"
-unwanted_tags = ["abstract", "file", "url"]
+references_file = "references.bib" # This is the file you read in
+output_file = "clean_references.bib" # This is the file you write out
+unwanted_tags = ["abstract", "file", "url", "keywords"]
 
 
-
+## Functions ##
 def customizations(record):
     record = type(record)
     record = convert_to_unicode(record)
@@ -32,9 +35,11 @@ with open(references_file) as bibtex_file:
     parser = BibTexParser()
     parser.customization = customizations
     bib_database = bibtexparser.load(bibtex_file, parser=parser)
-    print(bib_database.entries)
+    #print(bib_database.entries)
+    print("Cleaning complete")
 
 
-
-#bib_database = bibtexparser.loads(bibtex_str)
-#print(bib_database.entries)
+with open("clean_refs.bib", 'w') as bibfile:
+    writer = BibTexWriter()
+    bibfile.write(writer.write(bib_database))
+    print("Writing new file complete")
