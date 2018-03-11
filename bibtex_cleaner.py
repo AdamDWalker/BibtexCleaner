@@ -24,18 +24,15 @@ unwanted_tags = ["abstract", "file", "url", "keywords"]
 ## Functions ##
 def customizations(record):
     record = type(record)
-    record = convert_to_unicode(record)
     for val in unwanted_tags:
         record.pop(val, None)
     return record
 
 
-with open(references_file) as bibtex_file:
-    #bibtex_str = bibtex_file.read()
+with open(references_file, encoding='utf-8') as bibtex_file:
     parser = BibTexParser()
     parser.customization = customizations
     bib_database = bibtexparser.load(bibtex_file, parser=parser)
-    #print(bib_database.entries)
     print("Cleaning complete")
 
 
