@@ -17,7 +17,7 @@ from bibtexparser.customization import *
 
 ## Properties ##
 references_file = "references.bib" # This is the file you read in
-output_file = "clean_references.bib" # This is the file you write out
+output_file = "references.bib" # This is the file you write out
 unwanted_tags = ["abstract", "file", "url", "keywords"]
 
 
@@ -39,7 +39,7 @@ with open(references_file) as bibtex_file:
     print("Cleaning complete")
 
 
-with open("clean_refs.bib", 'w') as bibfile:
+with open(output_file, 'w') as bibfile:
     writer = BibTexWriter()
     bibfile.write(writer.write(bib_database))
     print("Writing new file complete")
