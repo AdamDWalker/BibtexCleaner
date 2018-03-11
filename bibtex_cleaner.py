@@ -10,14 +10,31 @@
 
 ## Imports ##
 import bibtexparser
+from bibtexparser.bparser import BibTexParser
+from bibtexparser.customization import *
 
 ## Properties ##
-filename = "references.bib"
+references_file = "references.bib"
+unwanted_tags = ["abstract", "file", "url"]
 
 
-with open(filename) as bibtex_file:
-    bibtex_str = bibtex_file.read()
+
+def customizations(record):
+    record = type(record)
+    record = convert_to_unicode(record)
+    for val in unwanted_tags:
+        record.pop(val, None)
+    return record
 
 
-bib_database = bibtexparser.loads(bibtex_str)
-print(bib_database.entries)
+with open(references_file) as bibtex_file:
+    #bibtex_str = bibtex_file.read()
+    parser = BibTexParser()
+    parser.customization = customizations
+    bib_database = bibtexparser.load(bibtex_file, parser=parser)
+    print(bib_database.entries)
+
+
+
+#bib_database = bibtexparser.loads(bibtex_str)
+#print(bib_database.entries)
